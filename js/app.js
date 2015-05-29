@@ -1,13 +1,27 @@
 $(document).ready(function(){
-	var reSet = function () {
+	$(window).load(function(){
+		reSet();
+	});
+
+	var setNum = function(){
 		num = Math.floor((Math.random() * 100) + 1);
-		guessCount = 0;
-		alert(num);
-		//$("#guessList").remove();
+	}
+
+	var reSet = function() {
+		setNum();
+		guessNum = 0;
+		$("p #count").text(0);
+		$("#guessList li").remove();
+		$("form #userGuess").val(null);
 		//event.preventDefault();
 	};
 
-	var getGuess = function () { //function start
+	var guessCount = function(){
+		guessNum++;
+		$("p #count").text(guessNum);
+	}
+
+	var getGuess = function() { //function start
 		
 		var guess = +$("#userGuess").val();
 		if(isNaN(guess) === true){
@@ -19,6 +33,7 @@ $(document).ready(function(){
 				if(guess >= 1 && guess <= 100) {
 					diff = Math.abs(guess - num);
 					$("#guessList").append("<li>" + guess + "</li>");
+					
 					if(diff > 50) {
 						alert("Ice Cold!");
 					} else if(diff <= 50 && diff > 40) {
@@ -34,6 +49,8 @@ $(document).ready(function(){
 					} else if(diff == 0) {
 						alert("Bingo!");
 					}
+					guessCount();
+					$("form #userGuess").val(null);
 				} 
 				else {
 					alert("Select a number between 1 and 100.");
